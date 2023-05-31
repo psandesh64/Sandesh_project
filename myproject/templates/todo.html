@@ -1,0 +1,42 @@
+{% extends 'home.html' %}
+<!--Block content goes below-->
+
+{% block content %}
+<form method="post" action="">
+{% csrf_token %}
+    <div class="table-container">
+        <table>
+        <tr>
+            <th>S.N</th>
+            <th>To-do-task</th>
+            <th>Status</th>
+            <th>Remarks</th>
+        </tr>
+        {% for todo in todos %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ todo.todo_list }}</td>
+            <td>
+                {% if todo.status %}
+                <span>&#10004;</span> <!-- Tick mark symbol -->
+                {% else %}
+                <span>&#10006;</span> <!-- Cross mark symbol -->
+                {% endif %}
+            </td>
+            <td><a class="btn btn-sm btn-info" href="{% url 'todoedit' todo.id %}">Edit</a>
+                <a class="btn btn-sm btn-info" href="{% url 'tododelete' todo.id %}">Delete</a></td> 
+            
+        </tr>
+        {% endfor %}
+        <tr>
+            <td></td>
+            <td><input type="text" name="todo_list"></td>
+            <td></td>
+            <td></td>
+        </tr>
+        </table>
+        <br>
+        <button type="submit">Add New Task</button>
+    </div>
+</form>
+{% endblock %}

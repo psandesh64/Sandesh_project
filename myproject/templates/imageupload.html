@@ -1,0 +1,30 @@
+{% extends 'home.html' %}
+<!--Block content goes below-->
+
+{% block content %}
+<div style="margin-left: 20px;">
+  <form action="" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="btn-group">
+      <input style="height: 30px;" type="text" name="name" required>
+      <input type="file" name="photo" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+    <a class="btn btn-sm btn-info" href="{% url 'imagedel'%}">Delete</a>
+  </form>
+  <div style="margin-left: 30px;">
+    <div class="row">
+      {% for image in imagedata %}
+      <div class="column">
+        <div>
+          <img src="{{ image.photo.url }}" alt="image" style="object-fit: contain; width: 100%; height: 300px;">
+          <div style="object-fit: contain; width: 100%;">
+            <p>{{ image.name }}</p>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}

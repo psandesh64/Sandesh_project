@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <style>
+      /* CSS styles for the navbar */
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: #f2f2f2;
+      }
+      .container {
+        margin-top:5%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .navbar {
+        background-color: gray;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+  
+      .navbar-left {
+        display: flex;
+        align-items: center;
+      }
+  
+      .navbar a {
+        color: white;
+        text-decoration: none;
+        padding: 11px;
+      }
+  
+      .navbar a:hover {
+        background-color: lightgray;
+      }
+  
+      .login-btn {
+        padding: 12px;
+        background-color: #4CAF50;
+        color: #ffffff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      .signin-form {
+      background-color: #ffffff;
+      padding: 40px;
+      border-radius: 8px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .signin-form label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .signin-form input[type="text"],
+    .signin-form input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      margin-bottom: 20px;
+    }
+
+    .signin-form button {
+      padding: 12px;
+      background-color: #4CAF50;
+      color: #ffffff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .signin-form button:hover {
+      background-color: #45a049;
+    }
+
+    .table-container {
+      background-color: #ffffff;
+      padding: 40px;
+      border-radius: 8px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .table-container table {
+      width: 60%;
+      border-collapse: collapse;
+    }
+
+    .table-container th, .table-container td {
+      padding: 10px;
+      border: 1px solid #ccc;
+      text-align: left;
+    }
+
+    .table-container th {
+      font-weight: bold;
+      background-color: #f2f2f2;
+    }
+
+    .table-container tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    .table-container input[type="text"] {
+      width: 95%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    .table-container button {
+      padding: 12px;
+      background-color: #4CAF50;
+      color: #ffffff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .table-container button:hover {
+      background-color: #45a049;
+    }
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .column {
+      flex: 0 0 30%;
+      max-width: 30%;
+      padding: 10px;
+    }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+      <div class="navbar-left">
+        <a href="{% url 'home' %}">Home</a>
+        {% if user.is_authenticated %}
+        <a href="{% url 'todo' %}">To-Do</a>
+        <a href="{% url 'images' %}">Images</a>
+        {% endif %}
+      </div>
+      <div>
+        {% if user.is_authenticated %}
+        <a class="login-btn" href="{% url 'logout' %}">Logout</a>       
+        {% endif %}
+      </div>
+    </div>
+    <div>
+      {% if messages %}
+        {% for message in messages %}
+          <div id="msg" role="alert">
+            {{message}}
+          </div>
+        {% endfor %}
+      {% endif %}
+      
+    {% if user.is_authenticated %}
+    <h3>Hi {{ user }}</h3>
+    {% endif %}
+    {% if user.is_anonymous %}
+    <div style="display: flex;">
+      <div class="container" style="width: 50%;">
+        <div class="signin-form">
+            <form method="post" action="login/">
+                {% csrf_token %}
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" placeholder="Enter your username">
+    
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password">
+    
+                <button type="submit">Sign In</button>
+            </form>
+        </div>
+      </div>
+      <div class="container">
+        <div class="signin-form">
+            <form method="post" action="signup/">
+                {% csrf_token %}
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" placeholder="Enter your username">
+    
+                <label for="password1">Password</label>
+                <input type="password" id="password1" name="password1" placeholder="Enter your password">
+    
+                <label for="password2">Retype Password</label>
+                <input type="password" id="password2" name="password2" placeholder="Enter your password again">
+    
+                <button type="submit">Create Account</button>
+    
+            </form>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+    </div>
+    {% block content %}
+    {% endblock %}
+  </body>
+</html>
